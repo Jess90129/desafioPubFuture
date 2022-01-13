@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./newTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"              
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">           
+
+    <ui:define name="content">
+
+        <h:form id="form">  
+
+            <p:outputPanel>
+                <br>
+                    <h:outputText value= "Valor:"/>
+                </br>  
+                <p:inputNumber id="valor" value="#{receitasB.valor}"  modifyValueOnWheel="false"/>                    
+            </p:outputPanel>
+
+            <p:outputPanel>
+                <br>
+                    <h:outputText value= "Data do Recebimento Esperado:"/>
+                </br>                    
+                <p:inputMask id="dataRecebimentoE" value="#{receitasB.dataRecebimentoEsperado}" mask="99/99/9999" /> 
+            </p:outputPanel>
+
+            <p:outputPanel>
+                <br>
+                    <h:outputText value= "Data do Recebimento:"/>     
+                </br>                 
+                <p:inputMask id="dataRecebimento" value="#{receitasB.dataRecebimento}" mask="99/99/9999" />  
+            </p:outputPanel>          
+
+            <p:outputPanel>
+                <br>
+                    <h:outputText value= "Tipo da Receita:" />    
+                </br>                              
+                <p:selectOneMenu id="tipoR"  value="#{receitasB.tipoReceita}">
+                    <f:selectItem itemLabel="Salário" itemValue="Salário" />
+                    <f:selectItem itemLabel="Presente" itemValue="Presente"/>
+                    <f:selectItem itemLabel="Prêmio" itemValue="Prêmio"/>
+                    <f:selectItem itemLabel="Outros" itemValue="Outros"/>     
+                </p:selectOneMenu>
+            </p:outputPanel>
+
+            <p:outputPanel>
+                <br>
+                    <h:outputText value= "Descrição:" />    
+                </br>                  
+                <p:inputText id="descricao" value="#{receitasB.descricao}" />  
+            </p:outputPanel>
+
+            <p:outputPanel>
+                <br>
+                    <h:outputText value= "Conta:"/>   
+                </br>                
+                <p:inputNumber id="conta" value="#{receitasB.conta}" modifyValueOnWheel="false" />     
+            </p:outputPanel>
+
+            <br></br>                
+
+            <p:commandButton  value="Salvar" action="#{receitasB.salvarReceita()}" ajax="false"/> 
+
+            <p:dataTable  var="listaR" value="#{receitasB.todasReceitas}" editable="true"  editMode="cell"
+                          widgetVar="cellR" filteredValue="#{receitasB.receitasFiltro}"
+                          filterBy="#{receitasB.filterBy}" rows="5"
+                          paginator="true"
+                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                          currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                          rowsPerPageTemplate="5,10,{ShowAll|'All'}">                
+
+                <p:column headerText="Data do Recebimento Esperado" field="date" filterMatchMode="between">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{listaR.dataRecebimentoEsperado}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="modelInput1" value="#{listaR.dataRecebimentoEsperado}"  label="Data do Recebimento Esperado" />
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>                                          
+
+                <p:column headerText="Data do Recebimento" field="date" filterMatchMode="between" >            
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{listaR.dataRecebimento}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="modelInput2" value="#{listaR.dataRecebimento}"  label="Data do Recebimento" />
+                        </f:facet>
+                    </p:cellEditor>                  
+                </p:column>              
+
+                <p:column headerText="Tipo" field="tipoReceita" filterMatchMode="exact" >
+                    <f:facet name="filter">
+                        <p:selectOneMenu onchange="PF('cellR').filter()" styleClass="custom-filter">
+                            <f:selectItem itemLabel="All" itemValue="#{null}" noSelectionOption="true" />
+                            <f:selectItems value="#{listaR.tipoReceita}" />
+                        </p:selectOneMenu>
+                    </f:facet>
+                </p:column>
+
+                <p:column headerText="Descrição" >
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{listaR.descricao}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="modelInput3" value="#{listaR.descricao}"  label="Descrição"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Conta" >
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{listaR.conta}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="modelInput4" value="#{listaR.conta}"  label="Conta"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Valor" >
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{listaR.valor}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="modelInput5" value="#{listaR.valor}"  label="Valor"/>
+                        </f:facet>
+                    </p:cellEditor> 
+                </p:column> 
+
+            </p:dataTable>
+
+        </h:form>  
+
+    </ui:define>
+
+</ui:composition>

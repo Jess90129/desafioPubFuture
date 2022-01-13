@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./newTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:form id="form">           
+
+            <p:outputPanel>
+                <br>
+                    <h:outputText value= "Saldo:"/>       
+                </br>
+                <p:inputNumber id="saldo" value="#{contasB.saldo}"  modifyValueOnWheel="false"/>                    
+            </p:outputPanel>
+
+            <p:outputPanel>
+                <br>
+                    <h:outputText value= "Instituição Financeira:"/> 
+                </br>
+                <p:inputText id="instituicaoF" value="#{contasB.instituicaoFinaceira}"/>                    
+            </p:outputPanel>
+
+            <p:outputPanel>
+                <br>
+                    <h:outputText value= "Tipo de Conta:"/> 
+                </br>
+                <p:selectOneMenu id="opcoes"  value="#{contasB.tipoConta}">
+                    <f:selectItem itemLabel="Corrente" itemValue="Corrente" />
+                    <f:selectItem itemLabel="Poupança" itemValue="Poupança"/>
+                    <f:selectItem itemLabel="Carteira" itemValue="Carteira"/>                   
+                </p:selectOneMenu>
+            </p:outputPanel>
+
+            <br></br>
+            <p:commandButton class="botaoSalvarC" value="Salvar" action="#{contasB.salvarConta()}"/> 
+
+            <p:dataTable var="listaC" value="#{contasB.todasContas}" editable="true"  editMode="cell"
+                         widgetVar="cellC" rows="5"
+                         paginator="true"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                         rowsPerPageTemplate="5,10,{ShowAll|'All'}">           
+
+                <p:column headerText="Id" >
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{listaC.id}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="modelInput1" value="#{listaC.id}"  label="Id"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Saldo" >
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{listaC.saldo}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="modelInput2" value="#{listaC.saldo}"  label="Saldo"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Instituição Financeira" >
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{listaC.instituicaoFinanceira}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="modelInput3" value="#{listaC.instituicaoFinanceira}"  label="Instituição Financeira"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Tipo de Conta" >
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{listaC.tipoConta}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="modelInput4" value="#{listaC.tipoConta}"  label="Instituição Financeira"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>                   
+
+            </p:dataTable>   
+        </h:form>
+    </ui:define>
+
+    <ui:define name="bottom">
+
+    </ui:define>
+
+</ui:composition>

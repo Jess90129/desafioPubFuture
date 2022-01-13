@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./newTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:form id="form">
+
+            <p:outputPanel>
+                <br>
+                    <h:outputText value= "Conta:"/>       
+                </br>
+                <p:inputNumber id="conta" value="#{despesasB.conta}" modifyValueOnWheel="false"/>                    
+            </p:outputPanel>
+
+            <p:outputPanel>
+                <br>
+                    <h:outputText value= "Data do Pagamento Esperado:"/>       
+                </br>
+                <p:inputText id="dateE" value="#{despesasB.dataPagamentoEsperado}"/>                    
+            </p:outputPanel>
+
+            <p:outputPanel>
+                <br>
+                    <h:outputText value= "Data do Pagamento:"/>       
+                </br>
+                <p:inputText id="dateP" value="#{despesasB.dataPagamento}"/>                    
+            </p:outputPanel>          
+
+            <p:outputPanel>
+                <br>
+                    <h:outputText value= "Tipo de Despesa:"/> 
+                </br>                                     
+                <p:selectOneMenu id="option"  value="#{despesasB.tipoDespesa}">
+                    <f:selectItem itemLabel="Alimentação" itemValue="Alimentação" />
+                    <f:selectItem itemLabel="Educação" itemValue="Educação"/>
+                    <f:selectItem itemLabel="Lazer" itemValue="Lazer"/>
+                    <f:selectItem itemLabel="Moradia" itemValue="Moradia"/>
+                    <f:selectItem itemLabel="Roupa" itemValue="Roupa"/>
+                    <f:selectItem itemLabel="Saúde" itemValue="Saúde"/>
+                    <f:selectItem itemLabel="Transporte" itemValue="Transporte"/>
+                    <f:selectItem itemLabel="Outros" itemValue="Outros"/>
+                </p:selectOneMenu>
+            </p:outputPanel>            
+
+            <p:outputPanel>
+                <br>
+                    <h:outputText value= "Valor:"/>       
+                </br>
+                <p:inputNumber id="valor" value="#{despesasB.valor}"  modifyValueOnWheel="false"/>                    
+            </p:outputPanel>
+
+            <br></br>
+            <p:commandButton  value="Salvar" action="#{despesasB.salvarDespesa()}" ajax="false"/> 
+
+            <p:dataTable var="listaD" value="#{despesasB.todasDespesas}" editable="true"  editMode="cell"
+                         widgetVar="cellD" filteredValue="#{despesasB.despesasFiltro}"
+                         filterBy="#{despesasB.filterBy}" rows="5"
+                         paginator="true"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                         rowsPerPageTemplate="5,10,{ShowAll|'All'}">                          
+
+                <p:column headerText="Conta">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{listaD.conta}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="modelInput1" value="#{listaD.conta}"  label="Conta"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Data do Pagamento Esperado" field="date" filterMatchMode="between">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{listaD.dataPagamentoEsperado}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="modelInput2" value="#{listaD.dataPagamentoEsperado}"  label="Data do Pagamento Esperado"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Data do Pagamento" field="date" filterMatchMode="between">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{listaD.dataPagamento}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="modelInput3" value="#{listaD.dataPagamentoEsperado}"  label="Data do Pagamento"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>               
+
+                <p:column headerText="Tipo de Despesa" field="tipoDespesa" filterMatchMode="exact">
+                    <f:facet name="filter">
+                        <p:selectOneMenu onchange="PF('cellD').filter()" styleClass="custom-filter">
+                            <f:selectItem itemLabel="All" itemValue="#{null}" noSelectionOption="true" />
+                            <f:selectItems value="#{listaD.tipoDespesa}" />
+                        </p:selectOneMenu>
+                    </f:facet>
+                </p:column>
+
+                <p:column headerText="Valor" >
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{listaD.valor}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="modelInput4" value="#{listaD.valor}"  label="Valor"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>  
+
+            </p:dataTable>                   
+        </h:form>
+    </ui:define>
+
+    <ui:define name="bottom">
+
+    </ui:define>
+
+</ui:composition>
